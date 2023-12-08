@@ -1,0 +1,38 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>Usually, online databases are accessed through the Internet. In this project, the database will be on your computer, but it will still be run as a separate program. The client who wants to get, create, or delete some information is a separate program, too.</p>
+<p>We will use the Java <code class="language-kotlin">Socket</code> to connect to the database. A socket is an interface to send and receive data between different processes. These processes can be on the same computer or different computers connected through the Internet.</p>
+<p>To connect to the server, the client must know its address, which consists of two parts: IP address and port. The address of your computer is always <em>127.0.0.1</em>. The port can be any number between <em>0</em> to <em>65535</em>, but preferably greater than 1024. </p>
+<p>Let's take a look at this client-side code:</p>
+<pre><code class="language-kotlin">val address = "127.0.0.1"
+val port = 23456
+val socket = Socket(InetAddress.getByName(address), port)
+val input = DataInputStream(socket.getInputStream())
+val output = DataOutputStream(socket.getOutputStream())</code></pre>
+<p>The client created a new socket, which means that the client tried to connect to the server. Successful creation of a socket means that the client found the server and managed to connect to it.</p>
+<p>After that, you can see the creation of <code class="language-kotlin">DataInputStream</code> and <code class="language-kotlin">DataOutputStream</code> objects. These are the input and output streams to the server. If you expect data from the server, write <code class="language-kotlin">input.readUTF()</code>. This returns the <code class="language-kotlin">string</code> object that the server sent to the client. If you want to send data to the server, you need to write <code class="language-kotlin">output.writeUTF(stringText)</code>, and this message will be sent to the server.</p>
+<p>Now let's look at the server-side code:</p>
+<pre><code class="language-kotlin">val address = "127.0.0.1"
+val port = 23456
+val server = ServerSocket(port, 50, InetAddress.getByName(address))
+val socket = server.accept()
+val input = DataInputStream(socket.getInputStream())
+val output = DataOutputStream(socket.getOutputStream())</code></pre>
+<p>The server created a <code class="language-kotlin">ServerSocket</code> object that waits for client connections. When a client connects, the method <code class="language-kotlin">server.accept()</code> returns the Socket connection to this client. After that, you can see the creation of <code class="language-kotlin">DataInputStream</code> and <code class="language-kotlin">DataOutputStream</code> objects: these are the input and output streams to this client, now from the server side. To receive data from the client, write <code class="language-kotlin">input.readUTF()</code>. To send data to the client, write <code class="language-kotlin">output.writeUTF(stringText)</code>. The server should stop after responding to the client.</p>
+<h5 id="objectives">Objectives</h5>
+<p>In this stage, implement the simplest connection between one server and one client. The client should send the server a message: something along the lines of <code class="language-kotlin">Give me a record # N</code>, where <code class="language-kotlin">N</code> is an integer number. The server should reply <code class="language-kotlin">A record # N was sent!</code> to the client. Both the client and the server should print the received messages to the console. Note that they exchange only these texts, not actual database files.</p>
+<p>Before a client connects to the server, the server output should be <code class="language-kotlin">Server started!</code>.</p>
+<p>Note: the server and the client are different programs that run separately. Your server should run from the main function of the <em>/server</em> package, and the client should run from the main method of the <em>/client</em> package. To test your program you should run the server first so a client can connect to the server.</p>
+<h5 id="example">Example</h5>
+<p><em>The server should output something like this:</em></p>
+<pre><code class="language-java">Server started!
+Received: Give me a record # 12
+Sent: A record # 12 was sent!
+</code></pre>
+<p><em>The client should output something like this:</em></p>
+<pre><code class="language-java">Client started!
+Sent: Give me a record # 12
+Received: A record # 12 was sent!
+</code></pre>
+
+</div>

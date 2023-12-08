@@ -1,0 +1,49 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>In this stage, build upon the functionality of the program that you wrote in the first stage. The server should be able to receive messages <code class="java">get</code>, <code class="java">set</code>, and <code class="java">delete</code> with an index of the cell. You also need to extend the database to 1000 cells (<code class="java">1</code>-<code class="java">1000</code>).</p>
+<p>There is no need to save files on the hard drive, so if the server reboots, all the data will be lost. The server should serve one client at a time in a loop, and the client should only send one request to the server, get one reply, and exit. After that, the server should wait for another connection.</p>
+<h5 id="objectives">Objectives</h5>
+<p>Since the server cannot shut down by itself and testing requires the program to stop at a certain point, you should implement a way to stop the server. When the client sends <code class="java">exit</code>, the server stops. In a normal situation, when there's no testing needed, you shouldn't allow this behavior.</p>
+<p>To send a request to the server, the client should get all the information through command-line arguments. These arguments include the type of the request (set, get, or delete), the index of the cell, and, in the case of the <code class="java">set</code> request, a text.</p>
+<p>The arguments will be passed to the client in the following format:</p>
+<pre><code class="language-no-highlight">-t set -i 148 -m Here is some text to store on the server</code></pre>
+<p><code class="java">-t</code> is the type of request, and <code class="java">-i</code> is the index of the cell. <code class="java">-m</code> is the value to save in the database: you only need it in case of a <code class="java">set</code> request.</p>
+<p>The server and the client are different programs that run separately. Your server should run from the main function of the <em>/server</em> package, and the client should run from the main method of the <em>/client</em> package.</p>
+<h5 id="example">Example</h5>
+<p>The greater-than symbol followed by a space (<code class="java">&gt; </code>) represents the user input. Note that it's not part of the input.</p>
+<p><em>Starting the server:</em></p>
+<pre><code class="language-no-highlight">&gt; java Main
+Server started!</code></pre>
+<p><em>Starting the clients:</em></p>
+<pre><code class="language-no-highlight">&gt; java Main -t get -i 1
+Client started!
+Sent: get 1
+Received: ERROR</code></pre>
+<pre><code class="language-no-highlight">&gt; java Main -t set -i 1 -m "Hello world!"
+Client started!
+Sent: set 1 Hello world!
+Received: OK</code></pre>
+<pre><code class="language-no-highlight">&gt; java Main -t set -i 1 -m HelloWorld!
+Client started!
+Sent: set 1 HelloWorld!
+Received: OK
+</code></pre>
+<pre><code class="language-no-highlight">&gt; java Main -t get -i 1
+Client started!
+Sent: get 1
+Received: HelloWorld!
+</code></pre>
+<pre><code class="language-no-highlight">&gt; java Main -t delete -i 1
+Client started!
+Sent: delete 1
+Received: OK</code></pre>
+<pre><code class="language-no-highlight">&gt; java Main -t get -i 1
+Client started!
+Sent: get 1
+Received: ERROR</code></pre>
+<pre><code class="language-no-highlight">&gt; java Main -t exit
+Client started!
+Sent: exit
+Received: OK</code></pre>
+
+</div>
